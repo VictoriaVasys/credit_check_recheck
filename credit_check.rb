@@ -5,7 +5,8 @@
 # Sum total digits
 # Provide output if card is valid or invalid
 
-class CardProcess
+class CardCalculation
+  attr_reader :processed_digits
   
   def initialize(card_number)
     @card_number = card_number
@@ -16,16 +17,19 @@ class CardProcess
     @card_number.digits
   end
   
-  def double_digits(digit, i)
-    i.odd? ? digit *= 2 : digit
-    # if i.odd?
-    #   digit *= 2
-    # end 
-  end
+  # def double_digits(digit, i)
+  #   i.odd? ? digit *= 2 : digit
+  #   # if i.odd?
+  #   #   digit *= 2
+  #   # else
+  #   #   digit
+  #   # end 
+  # end
   
   def process_card_digits
     card_digits.each_with_index do |digit, i|
-      double_digits(digit, i)
+      i.odd? ? digit *= 2 : digit
+      # digit = double_digits(digit, i)
       @processed_digits << digit.digits.sum
     end
   end
@@ -35,15 +39,16 @@ class CreditCheck
   
   def initialize(card_number)
     @card_number = card_number
+    @card_calculation = CardCalculation.new(card_number)
   end
   
   def validate
-    CardProcess.new(4024007106512380).process_card_digits
+    @card_calculation.process_card_digits
     valid?
   end
   
   def valid?
-    if @processed_digits.sum % 10 == 0
+    if @card_calculation.processed_digits.sum % 10 == 0
       puts "Your card is valid!"
     else
       puts "Your card is invalid!"
@@ -52,7 +57,7 @@ class CreditCheck
   
 end
 
-CreditCheck.new(4024007106512380).validate
+CreditCheck.new(5541801923795240).validate
 
 
 # valid: 5541808923795240, 4024007136512380, 6011797668867828
