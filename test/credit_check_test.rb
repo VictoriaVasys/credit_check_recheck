@@ -57,6 +57,12 @@ class CreditCheckTest < Minitest::Test
 
     refute credit_check.valid?
   end
+  
+  def test_valid_returns_false_for_another_amex_invalid_card
+    credit_check = CreditCheck.new(3428016673)
+    
+    refute credit_check.valid?
+  end
 
   def test_true_is_true
     assert true
